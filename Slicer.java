@@ -93,6 +93,86 @@ public class Slicer{
         return output;
     }
 
+    public int[] Fatiador4(int pacotes, int[] caminhos){
+        int numCaminhos = caminhos.length;
+
+        if (numCaminhos <= 0) return null;
+        int[] output = new int[numCaminhos];
+
+        if(numCaminhos>pacotes){
+            for(int i = 0; i<numCaminhos; i++){
+                if(i<pacotes) output[i] = 1;
+                else output[i] = 0;
+            }
+            return output;
+        } 
+        float[] pesos = new float[numCaminhos];
+        float somaPesos = 0;
+        for(int i = 0; i<numCaminhos; i++){
+            pesos[i] = (float)caminhos[i];
+            somaPesos+=pesos[i];
+        }
+
+        for(int i = 0; i<numCaminhos; i++){
+            output[i] = 1;
+        }
+
+        int remainder = pacotes-numCaminhos;
+        int restante = remainder;
+
+        for(int i = 0; i<numCaminhos; i++){
+            int add = (int)(restante*pesos[i]/somaPesos);
+            output[i] += add;
+            remainder-=add;
+        }
+
+        for(int i = numCaminhos-1; i>numCaminhos-remainder-1; i--){
+            output[i] += 1;
+        }
+
+        return output;
+    }
+
+    public int[] Fatiador5(int pacotes, int[] caminhos){
+        int numCaminhos = caminhos.length;
+
+        if (numCaminhos <= 0) return null;
+        int[] output = new int[numCaminhos];
+
+        if(numCaminhos>pacotes){
+            for(int i = 0; i<numCaminhos; i++){
+                if(i<pacotes) output[i] = 1;
+                else output[i] = 0;
+            }
+            return output;
+        } 
+        float[] pesos = new float[numCaminhos];
+        float somaPesos = 0;
+        for(int i = 0; i<numCaminhos; i++){
+            pesos[i] = (float)1/(caminhos[i]*caminhos[i]);
+            somaPesos+=pesos[i];
+        }
+
+        for(int i = 0; i<numCaminhos; i++){
+            output[i] = 1;
+        }
+
+        int remainder = pacotes-numCaminhos;
+        int restante = remainder;
+
+        for(int i = 0; i<numCaminhos; i++){
+            int add = (int)(restante*pesos[i]/somaPesos);
+            output[i] += add;
+            remainder-=add;
+        }
+
+        for(int i = numCaminhos-1; i>numCaminhos-remainder-1; i--){
+            output[i] += 1;
+        }
+
+        return output;
+    }
+
     public static void main(String[] args){
         System.out.println();
         Slicer fatiador = new Slicer();
@@ -111,11 +191,26 @@ public class Slicer{
         System.out.print(v2[v2.length-1]);
         System.out.println();
 
-        int[] caminhos = new int[]{1,3,5,7};
+        int[] caminhos = new int[]{2,3,5,7};
         int[] v3 = fatiador.Fatiador3(24,caminhos);
         for(int i = 0; i<v3.length-1; i++){
             System.out.print(v3[i] + ",");
         }
         System.out.print(v3[v3.length-1]);
+        System.out.println();
+
+        int[] v4 = fatiador.Fatiador4(24,caminhos);
+        for(int i = 0; i<v4.length-1; i++){
+            System.out.print(v4[i] + ",");
+        }
+        System.out.print(v4[v4.length-1]);
+        System.out.println();
+
+        int[] v5 = fatiador.Fatiador5(24,caminhos);
+        for(int i = 0; i<v5.length-1; i++){
+            System.out.print(v5[i] + ",");
+        }
+        System.out.print(v5[v5.length-1]);
+        System.out.println();
     }
 }
